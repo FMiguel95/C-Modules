@@ -6,7 +6,7 @@
 /*   By: fernacar <fernacar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 19:40:03 by fernacar          #+#    #+#             */
-/*   Updated: 2023/12/13 20:42:31 by fernacar         ###   ########.fr       */
+/*   Updated: 2023/12/14 23:31:51 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,31 +16,31 @@
 
 Fixed::Fixed()
 {
-	std::cout << "Default constructor called" << std::endl;
+	// std::cout << "Default constructor called" << std::endl;
 	_rawBits = 0;
 }
 
 Fixed::Fixed( Fixed const &src )
 {
-	std::cout << "Copy constructor called" << std::endl;
+	// std::cout << "Copy constructor called" << std::endl;
 	*this = src;
 }
 
 Fixed::Fixed( const int src )
 {
-	std::cout << "Int constructor called" << std::endl;
+	// std::cout << "Int constructor called" << std::endl;
 	_rawBits = src << frac_bits;
 }
 
 Fixed::Fixed( const float src )
 {
-	std::cout << "Float constructor called" << std::endl;
+	// std::cout << "Float constructor called" << std::endl;
 	_rawBits = roundf(src * (1 << frac_bits));
 }
 
 Fixed &Fixed::operator =( Fixed const &src )
 {
-	std::cout << "Copy assignment operator called" << std::endl;
+	// std::cout << "Copy assignment operator called" << std::endl;
 	if (this != &src)
 	{
 		_rawBits = src._rawBits;
@@ -50,19 +50,19 @@ Fixed &Fixed::operator =( Fixed const &src )
 
 Fixed::~Fixed()
 {
-	std::cout << "Destructor called" << std::endl;
+	// std::cout << "Destructor called" << std::endl;
 	_rawBits = 0;
 }
 
 int Fixed::getRawBits( void ) const
 {
-	std::cout << "getRawBits member function called" << std::endl;
+	// std::cout << "getRawBits member function called" << std::endl;
 	return (_rawBits);
 }
 
 void Fixed::setRawBits( int const raw )
 {
-	std::cout << "setRawBits member function called" << std::endl;
+	// std::cout << "setRawBits member function called" << std::endl;
 	_rawBits = raw;
 }
 
@@ -82,58 +82,58 @@ std::ostream &operator <<( std::ostream &o, const Fixed &src )
 	return (o);
 }
 
-bool Fixed::operator >( const Fixed &src )
+bool Fixed::operator >( const Fixed &src ) const
 {
 	return (_rawBits > src.getRawBits());
 }
 
-bool Fixed::operator <( const Fixed &src )
+bool Fixed::operator <( const Fixed &src ) const
 {
 	return (_rawBits < src.getRawBits());
 }
 
-bool Fixed::operator >=( const Fixed &src )
+bool Fixed::operator >=( const Fixed &src ) const
 {
 	return (_rawBits >= src.getRawBits());
 }
 
-bool Fixed::operator <=( const Fixed &src )
+bool Fixed::operator <=( const Fixed &src ) const
 {
 	return (_rawBits <= src.getRawBits());
 }
 
-bool Fixed::operator ==( const Fixed &src )
+bool Fixed::operator ==( const Fixed &src ) const
 {
 	return (_rawBits == src.getRawBits());
 }
 
-bool Fixed::operator !=( const Fixed &src )
+bool Fixed::operator !=( const Fixed &src ) const
 {
 	return (_rawBits != src.getRawBits());
 }
 
-Fixed Fixed::operator +( const Fixed &src )
+Fixed Fixed::operator +( const Fixed &src ) const
 {
 	Fixed res;
 	res.setRawBits(_rawBits + src.getRawBits());
 	return res;
 }
 
-Fixed Fixed::operator -( const Fixed &src )
+Fixed Fixed::operator -( const Fixed &src ) const
 {
 	Fixed res;
 	res.setRawBits(_rawBits - src.getRawBits());
 	return res;
 }
 
-Fixed Fixed::operator *( const Fixed &src )
+Fixed Fixed::operator *( const Fixed &src ) const
 {
 	Fixed res;
 	res.setRawBits(_rawBits * src.getRawBits() >> frac_bits);
 	return res;
 }
 
-Fixed Fixed::operator /( const Fixed &src )
+Fixed Fixed::operator /( const Fixed &src ) const
 {
 	Fixed res;
 	res.setRawBits((_rawBits << frac_bits) / src.getRawBits());
@@ -168,20 +168,20 @@ Fixed Fixed::operator --(int)
 
 Fixed& Fixed::min( Fixed &f1, Fixed &f2 )
 {
-	return f1 <= f2 ? f1 : f2;
+	return (f1 <= f2) ? f1 : f2;
 }
 
 const Fixed& Fixed::min( const Fixed &f1, const Fixed &f2 )
 {
-	return (Fixed)f1 <= (Fixed)f2 ? f1 : f2;
+	return (f1 <= f2) ? f1 : f2;
 }
 
 Fixed& Fixed::max( Fixed &f1, Fixed &f2 )
 {
-	return f1 >= f2 ? f1 : f2;
+	return (f1 >= f2) ? f1 : f2;
 }
 
 const Fixed& Fixed::max( const Fixed &f1, const Fixed &f2 )
 {
-	return (Fixed)f1 >= (Fixed)f2 ? f1 : f2;
+	return (f1 >= f2) ? f1 : f2;
 }

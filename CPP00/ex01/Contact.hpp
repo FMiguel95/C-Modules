@@ -1,35 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Point.hpp                                          :+:      :+:    :+:   */
+/*   Contact.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fernacar <fernacar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/13 20:54:11 by fernacar          #+#    #+#             */
-/*   Updated: 2023/12/14 22:04:44 by fernacar         ###   ########.fr       */
+/*   Created: 2023/10/01 21:23:23 by fernacar          #+#    #+#             */
+/*   Updated: 2023/10/04 00:15:54 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef POINT_HPP
-# define POINT_HPP
+#ifndef CONTACT_HPP
+# define CONTACT_HPP
 
-# include "Fixed.hpp"
+#include <string>
 
-class Point
-{
-	private:
-		const Fixed x;
-		const Fixed y;
+class Contact{
 
-	public:
-		Point();
-		Point( const float x, const float y );
-		Point( const Point& src );
-		Point& operator =(const Point& src);
-		~Point();
+private:
+	std::string _firstName;
+	std::string _lastName;
+	std::string _nickname;
+	std::string _phoneNumber;
+	std::string _secret;
 
-		Fixed getX() const;
-		Fixed getY() const;
+	void		printField(std::string field) const;
+
+public:
+	bool		in_use;
+
+	void		initContact(void);
+	void		printContactSimple(int index) const;
+	void		printContactFull(void) const;
 };
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: fernacar <fernacar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 20:54:07 by fernacar          #+#    #+#             */
-/*   Updated: 2023/12/14 00:19:38 by fernacar         ###   ########.fr       */
+/*   Updated: 2023/12/14 23:06:21 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,20 @@ static Fixed abs(Fixed x)
 	return x;
 }
 
-static Fixed area( Point const a, Point const b, Point const c )
+static Fixed triangle_area(Point const &a, Point const &b, Point const &c)
 {
-	return ( ( ( a.getX() * ( b.getY() - c.getY() ) ) +
-			( b.getX() * ( c.getY() - a.getY() ) ) +
-			( c.getX() * ( a.getY() - b.getY() ) ) ) / 2 );
+	return (((a.getX() * (b.getY() - c.getY())) +
+			 (b.getX() * (c.getY() - a.getY())) +
+			 (c.getX() * (a.getY() - b.getY()))) / 2);
 }
 
-bool bsp( Point const a, Point const b, Point const c, Point const point)
+bool bsp( Point const a, Point const b, Point const c, Point point)
 {
-	Fixed   abcArea = abs(area( a, b, c ));
-	Fixed   pabArea = abs(area( point, a, b ));
-	Fixed   pbcArea = abs(area( point, b, c ));
-	Fixed   pcaArea = abs(area( point, c, a ));
+	Fixed   abcArea = abs(triangle_area( a, b, c ));
+	Fixed   pabArea = abs(triangle_area( point, a, b ));
+	Fixed   pbcArea = abs(triangle_area( point, b, c ));
+	Fixed   pcaArea = abs(triangle_area( point, c, a ));
 
-	return  ( abcArea == pabArea + pbcArea + pcaArea );
+	return  ( abcArea == pabArea + pbcArea + pcaArea &&
+				pabArea != 0 && pbcArea != 0 && pcaArea != 0);
 }

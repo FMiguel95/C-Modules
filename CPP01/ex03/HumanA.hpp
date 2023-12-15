@@ -1,35 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Point.hpp                                          :+:      :+:    :+:   */
+/*   HumanA.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fernacar <fernacar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/13 20:54:11 by fernacar          #+#    #+#             */
-/*   Updated: 2023/12/14 22:04:44 by fernacar         ###   ########.fr       */
+/*   Created: 2023/10/22 22:07:21 by fernacar          #+#    #+#             */
+/*   Updated: 2023/10/23 00:03:20 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef POINT_HPP
-# define POINT_HPP
+#ifndef HUMAN_A_HPP
+# define HUMAN_A_HPP
 
-# include "Fixed.hpp"
+# include <iostream>
+# include "Weapon.hpp"
 
-class Point
+class HumanA
 {
 	private:
-		const Fixed x;
-		const Fixed y;
-
+		std::string name;
+		Weapon &weapon;
+	
 	public:
-		Point();
-		Point( const float x, const float y );
-		Point( const Point& src );
-		Point& operator =(const Point& src);
-		~Point();
+		HumanA( std::string name, Weapon &weapon );
+		~HumanA();
 
-		Fixed getX() const;
-		Fixed getY() const;
+		void attack();
 };
 
 #endif

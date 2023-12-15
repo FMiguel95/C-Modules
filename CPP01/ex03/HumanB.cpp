@@ -1,35 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Point.hpp                                          :+:      :+:    :+:   */
+/*   HumanB.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fernacar <fernacar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/13 20:54:11 by fernacar          #+#    #+#             */
-/*   Updated: 2023/12/14 22:04:44 by fernacar         ###   ########.fr       */
+/*   Created: 2023/10/22 22:07:50 by fernacar          #+#    #+#             */
+/*   Updated: 2023/11/29 20:33:42 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef POINT_HPP
-# define POINT_HPP
+#include "HumanB.hpp"
+#include <iostream>
 
-# include "Fixed.hpp"
-
-class Point
+HumanB::HumanB( std::string name ) : name(name)
 {
-	private:
-		const Fixed x;
-		const Fixed y;
+	weapon = NULL;
+}
 
-	public:
-		Point();
-		Point( const float x, const float y );
-		Point( const Point& src );
-		Point& operator =(const Point& src);
-		~Point();
+HumanB::~HumanB( void ) {}
 
-		Fixed getX() const;
-		Fixed getY() const;
-};
+void HumanB::attack()
+{
+	if (weapon)
+		std::cout << name << " attacks with their " << weapon->getType() << std::endl;
+	else
+		std::cout << name << " doesn't have a weapon" << std::endl;
+}
 
-#endif
+void HumanB::setWeapon( Weapon &weapon )
+{
+	this->weapon = &weapon;
+}

@@ -1,35 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Point.hpp                                          :+:      :+:    :+:   */
+/*   Zombie.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fernacar <fernacar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/13 20:54:11 by fernacar          #+#    #+#             */
-/*   Updated: 2023/12/14 22:04:44 by fernacar         ###   ########.fr       */
+/*   Created: 2023/10/22 18:45:15 by fernacar          #+#    #+#             */
+/*   Updated: 2023/10/22 20:28:11 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef POINT_HPP
-# define POINT_HPP
+#ifndef ZOMBIE_HPP
+# define ZOMBIE_HPP
 
-# include "Fixed.hpp"
+# include <iostream>
 
-class Point
+class Zombie
 {
 	private:
-		const Fixed x;
-		const Fixed y;
+		std::string name;
 
 	public:
-		Point();
-		Point( const float x, const float y );
-		Point( const Point& src );
-		Point& operator =(const Point& src);
-		~Point();
-
-		Fixed getX() const;
-		Fixed getY() const;
+		Zombie( std::string name );
+		~Zombie( void );
+		void announce( void );
 };
 
 #endif

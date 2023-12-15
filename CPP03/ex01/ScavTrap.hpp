@@ -1,35 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Point.hpp                                          :+:      :+:    :+:   */
+/*   ScavTrap.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fernacar <fernacar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/13 20:54:11 by fernacar          #+#    #+#             */
-/*   Updated: 2023/12/14 22:04:44 by fernacar         ###   ########.fr       */
+/*   Created: 2023/12/11 22:43:31 by fernacar          #+#    #+#             */
+/*   Updated: 2023/12/12 00:23:37 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef POINT_HPP
-# define POINT_HPP
+#ifndef SCAV_TRAP_HPP
+# define SCAV_TRAP_HPP
 
-# include "Fixed.hpp"
+# include "ClapTrap.hpp"
 
-class Point
+class ScavTrap: private ClapTrap
 {
-	private:
-		const Fixed x;
-		const Fixed y;
-
 	public:
-		Point();
-		Point( const float x, const float y );
-		Point( const Point& src );
-		Point& operator =(const Point& src);
-		~Point();
+		ScavTrap(const std::string& name);
+		ScavTrap(const ScavTrap& src);
+		~ScavTrap();
+		ScavTrap& operator=(const ScavTrap& src);
+		
+		void attack(const std::string& target);
+		void guardGate();
 
-		Fixed getX() const;
-		Fixed getY() const;
+	private:
+		ScavTrap();
 };
 
 #endif

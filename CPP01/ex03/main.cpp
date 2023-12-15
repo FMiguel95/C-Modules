@@ -5,33 +5,32 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fernacar <fernacar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/07 19:31:16 by fernacar          #+#    #+#             */
-/*   Updated: 2023/12/14 23:32:49 by fernacar         ###   ########.fr       */
+/*   Created: 2023/10/22 22:08:04 by fernacar          #+#    #+#             */
+/*   Updated: 2023/10/23 16:06:05 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Fixed.hpp"
-#include "Point.hpp"
-#include <iostream>
+#include "Weapon.hpp"
+#include "HumanA.hpp"
+#include "HumanB.hpp"
 
-bool bsp( Point const a, Point const b, Point const c, Point const point);
-
-int main( void )
+int main()
 {
-	Point a(0,0);
-	Point b(10,0);
-	Point c(0,10);
-	Point p(1,8);
-	std::cout << "point is inside: " << bsp(a, b, c, p) << std::endl;
-
-	p = Point(50,50);
-	std::cout << "point is outside: " << bsp(a, b, c, p) << std::endl;
-
-	p = Point(5,5);
-	std::cout << "point on edge: " << bsp(a, b, c, p) << std::endl;
-
-	p = Point(10,0);
-	std::cout << "point on vertex: " << bsp(a, b, c, p) << std::endl;
-
+	{
+		Weapon club = Weapon("crude spiked club");
+		HumanA bob("Bob", club);
+		bob.attack();
+		club.setType("some other type of club");
+		bob.attack();
+	}
+	{
+		Weapon club = Weapon("crude spiked club");
+		HumanB jim("Jim");
+		jim.setWeapon(club);
+		jim.attack();
+		club.setType("some other type of club");
+		jim.attack();
+	}
+	
 	return 0;
 }

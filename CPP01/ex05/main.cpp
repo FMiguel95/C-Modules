@@ -5,33 +5,38 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fernacar <fernacar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/07 19:31:16 by fernacar          #+#    #+#             */
-/*   Updated: 2023/12/14 23:32:49 by fernacar         ###   ########.fr       */
+/*   Created: 2023/11/29 21:55:01 by fernacar          #+#    #+#             */
+/*   Updated: 2023/11/29 22:47:20 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Fixed.hpp"
-#include "Point.hpp"
 #include <iostream>
+#include "Harl.hpp"
 
-bool bsp( Point const a, Point const b, Point const c, Point const point);
-
-int main( void )
+int main(void)
 {
-	Point a(0,0);
-	Point b(10,0);
-	Point c(0,10);
-	Point p(1,8);
-	std::cout << "point is inside: " << bsp(a, b, c, p) << std::endl;
+	Harl harl;
 
-	p = Point(50,50);
-	std::cout << "point is outside: " << bsp(a, b, c, p) << std::endl;
+	std::cout << "> harl.complain(\"DEBUG\");" << std::endl;
+	harl.complain("DEBUG");
 
-	p = Point(5,5);
-	std::cout << "point on edge: " << bsp(a, b, c, p) << std::endl;
+	std::cout << std::endl;
 
-	p = Point(10,0);
-	std::cout << "point on vertex: " << bsp(a, b, c, p) << std::endl;
+	std::cout << "> harl.complain(\"INFO\");" << std::endl;
+	harl.complain("INFO");
 
-	return 0;
+	std::cout << std::endl;
+
+	std::cout << "> harl.complain(\"WARNING\");" << std::endl;
+	harl.complain("WARNING");
+
+	std::cout << std::endl;
+
+	std::cout << "> harl.complain(\"ERROR\");" << std::endl;
+	harl.complain("ERROR");
+
+	std::cout << std::endl;
+
+	std::cout << "> harl.complain(\"AAAHHH\");" << std::endl;
+	harl.complain("AAAHHH");
 }

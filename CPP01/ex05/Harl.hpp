@@ -1,35 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Point.hpp                                          :+:      :+:    :+:   */
+/*   Harl.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fernacar <fernacar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/13 20:54:11 by fernacar          #+#    #+#             */
-/*   Updated: 2023/12/14 22:04:44 by fernacar         ###   ########.fr       */
+/*   Created: 2023/11/29 21:55:20 by fernacar          #+#    #+#             */
+/*   Updated: 2023/11/29 22:02:34 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef POINT_HPP
-# define POINT_HPP
+#ifndef HARL_HPP
+# define HARL_HPP
 
-# include "Fixed.hpp"
+# include <string>
 
-class Point
+class Harl
 {
 	private:
-		const Fixed x;
-		const Fixed y;
+		void debug( void );
+		void info( void );
+		void warning( void );
+		void error( void );
 
 	public:
-		Point();
-		Point( const float x, const float y );
-		Point( const Point& src );
-		Point& operator =(const Point& src);
-		~Point();
+		Harl();
+		~Harl();
+		void complain( std::string level );
 
-		Fixed getX() const;
-		Fixed getY() const;
 };
 
 #endif

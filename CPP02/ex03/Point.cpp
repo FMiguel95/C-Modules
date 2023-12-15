@@ -6,7 +6,7 @@
 /*   By: fernacar <fernacar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 20:54:09 by fernacar          #+#    #+#             */
-/*   Updated: 2023/12/14 00:15:16 by fernacar         ###   ########.fr       */
+/*   Updated: 2023/12/14 22:05:01 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ Point& Point::operator =(const Point& src)
 {
 	if (this != &src)
 	{
-		(Fixed)x = src.x;
-		(Fixed)y = src.y;
+		const_cast<Fixed&>(x) = src.getX();
+        const_cast<Fixed&>(y) = src.getY();
 	}
 	return *this;
 }

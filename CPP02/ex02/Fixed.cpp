@@ -6,7 +6,7 @@
 /*   By: fernacar <fernacar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 19:40:03 by fernacar          #+#    #+#             */
-/*   Updated: 2023/12/13 20:42:31 by fernacar         ###   ########.fr       */
+/*   Updated: 2023/12/14 23:26:20 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,58 +82,58 @@ std::ostream &operator <<( std::ostream &o, const Fixed &src )
 	return (o);
 }
 
-bool Fixed::operator >( const Fixed &src )
+bool Fixed::operator >( const Fixed &src ) const
 {
 	return (_rawBits > src.getRawBits());
 }
 
-bool Fixed::operator <( const Fixed &src )
+bool Fixed::operator <( const Fixed &src ) const
 {
 	return (_rawBits < src.getRawBits());
 }
 
-bool Fixed::operator >=( const Fixed &src )
+bool Fixed::operator >=( const Fixed &src ) const
 {
 	return (_rawBits >= src.getRawBits());
 }
 
-bool Fixed::operator <=( const Fixed &src )
+bool Fixed::operator <=( const Fixed &src ) const
 {
 	return (_rawBits <= src.getRawBits());
 }
 
-bool Fixed::operator ==( const Fixed &src )
+bool Fixed::operator ==( const Fixed &src ) const
 {
 	return (_rawBits == src.getRawBits());
 }
 
-bool Fixed::operator !=( const Fixed &src )
+bool Fixed::operator !=( const Fixed &src ) const
 {
 	return (_rawBits != src.getRawBits());
 }
 
-Fixed Fixed::operator +( const Fixed &src )
+Fixed Fixed::operator +( const Fixed &src ) const
 {
 	Fixed res;
 	res.setRawBits(_rawBits + src.getRawBits());
 	return res;
 }
 
-Fixed Fixed::operator -( const Fixed &src )
+Fixed Fixed::operator -( const Fixed &src ) const
 {
 	Fixed res;
 	res.setRawBits(_rawBits - src.getRawBits());
 	return res;
 }
 
-Fixed Fixed::operator *( const Fixed &src )
+Fixed Fixed::operator *( const Fixed &src ) const
 {
 	Fixed res;
 	res.setRawBits(_rawBits * src.getRawBits() >> frac_bits);
 	return res;
 }
 
-Fixed Fixed::operator /( const Fixed &src )
+Fixed Fixed::operator /( const Fixed &src ) const
 {
 	Fixed res;
 	res.setRawBits((_rawBits << frac_bits) / src.getRawBits());
@@ -168,20 +168,20 @@ Fixed Fixed::operator --(int)
 
 Fixed& Fixed::min( Fixed &f1, Fixed &f2 )
 {
-	return f1 <= f2 ? f1 : f2;
+	return (f1 <= f2) ? f1 : f2;
 }
 
 const Fixed& Fixed::min( const Fixed &f1, const Fixed &f2 )
 {
-	return (Fixed)f1 <= (Fixed)f2 ? f1 : f2;
+	return (f1 <= f2) ? f1 : f2;
 }
 
 Fixed& Fixed::max( Fixed &f1, Fixed &f2 )
 {
-	return f1 >= f2 ? f1 : f2;
+	return (f1 >= f2) ? f1 : f2;
 }
 
 const Fixed& Fixed::max( const Fixed &f1, const Fixed &f2 )
 {
-	return (Fixed)f1 >= (Fixed)f2 ? f1 : f2;
+	return (f1 >= f2) ? f1 : f2;
 }

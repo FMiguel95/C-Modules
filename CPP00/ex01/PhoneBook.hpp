@@ -1,35 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Point.hpp                                          :+:      :+:    :+:   */
+/*   PhoneBook.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fernacar <fernacar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/13 20:54:11 by fernacar          #+#    #+#             */
-/*   Updated: 2023/12/14 22:04:44 by fernacar         ###   ########.fr       */
+/*   Created: 2023/10/01 21:23:59 by fernacar          #+#    #+#             */
+/*   Updated: 2023/11/23 21:44:33 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef POINT_HPP
-# define POINT_HPP
+#ifndef PHONEBOOK_HPP
+# define PHONEBOOK_HPP
 
-# include "Fixed.hpp"
+#include "Contact.hpp"
 
-class Point
-{
-	private:
-		const Fixed x;
-		const Fixed y;
+class PhoneBook{
 
-	public:
-		Point();
-		Point( const float x, const float y );
-		Point( const Point& src );
-		Point& operator =(const Point& src);
-		~Point();
+private:
+	Contact _contacts[8];
 
-		Fixed getX() const;
-		Fixed getY() const;
+	int		my_str2int(std::string input) const;
+	
+public:
+	void	init(void);
+	void	addContact(void);
+	void	searchContact(void) const;
+	bool	isEmpty(void) const;
 };
 
 #endif

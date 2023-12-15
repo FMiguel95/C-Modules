@@ -6,7 +6,7 @@
 /*   By: fernacar <fernacar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 19:39:50 by fernacar          #+#    #+#             */
-/*   Updated: 2023/12/13 19:42:23 by fernacar         ###   ########.fr       */
+/*   Updated: 2023/12/14 23:24:56 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,16 @@ class Fixed
 		int toInt( void ) const;
 		float toFloat( void ) const;
 
-		bool operator >( const Fixed &src );
-		bool operator <( const Fixed &src );
-		bool operator >=( const Fixed &src );
-		bool operator <=( const Fixed &src );
-		bool operator ==( const Fixed &src );
-		bool operator !=( const Fixed &src );
-		Fixed operator +( const Fixed &src );
-		Fixed operator -( const Fixed &src );
-		Fixed operator *( const Fixed &src );
-		Fixed operator /( const Fixed &src );
+		bool operator >( const Fixed &src ) const;
+		bool operator <( const Fixed &src ) const;
+		bool operator >=( const Fixed &src ) const;
+		bool operator <=( const Fixed &src ) const;
+		bool operator ==( const Fixed &src ) const;
+		bool operator !=( const Fixed &src ) const;
+		Fixed operator +( const Fixed &src ) const;
+		Fixed operator -( const Fixed &src ) const;
+		Fixed operator *( const Fixed &src ) const;
+		Fixed operator /( const Fixed &src ) const;
 		Fixed& operator ++();
 		Fixed operator ++(int);
 		Fixed& operator --();

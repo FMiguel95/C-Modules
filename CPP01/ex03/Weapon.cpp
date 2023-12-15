@@ -1,35 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Point.hpp                                          :+:      :+:    :+:   */
+/*   Weapon.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fernacar <fernacar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/13 20:54:11 by fernacar          #+#    #+#             */
-/*   Updated: 2023/12/14 22:04:44 by fernacar         ###   ########.fr       */
+/*   Created: 2023/10/22 22:07:13 by fernacar          #+#    #+#             */
+/*   Updated: 2023/10/23 00:10:46 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef POINT_HPP
-# define POINT_HPP
+#include "Weapon.hpp"
+#include <iostream>
 
-# include "Fixed.hpp"
+Weapon::Weapon( std::string type ) : type(type) {}
 
-class Point
+Weapon::~Weapon( void ) {}
+
+std::string Weapon::getType() const
 {
-	private:
-		const Fixed x;
-		const Fixed y;
+	return (type);
+}
 
-	public:
-		Point();
-		Point( const float x, const float y );
-		Point( const Point& src );
-		Point& operator =(const Point& src);
-		~Point();
-
-		Fixed getX() const;
-		Fixed getY() const;
-};
-
-#endif
+void Weapon::setType(std::string type)
+{
+	this->type = type;
+}
