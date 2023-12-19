@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ClapTrap.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fernacar <fernacar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fernacar <fernacar@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 20:15:05 by fernacar          #+#    #+#             */
-/*   Updated: 2023/12/12 00:23:40 by fernacar         ###   ########.fr       */
+/*   Updated: 2023/12/18 23:59:39 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 class ClapTrap
 {
 	public:
+		ClapTrap();
 		ClapTrap(const std::string& name);
 		ClapTrap(const ClapTrap& src);
 		~ClapTrap();
@@ -32,8 +33,6 @@ class ClapTrap
 		unsigned int _hitPoints;
 		unsigned int _energyPoints;
 		unsigned int _attackDamage;
-
-		ClapTrap();
 };
 
 #endif

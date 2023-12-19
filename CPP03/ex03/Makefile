@@ -1,11 +1,11 @@
-NAME = scavtrap
+NAME = diamondtrap
 
-SRC = ClapTrap.cpp ScavTrap.cpp main.cpp
+SRC = ClapTrap.cpp ScavTrap.cpp FragTrap.cpp DiamondTrap.cpp main.cpp
 
 BIN = $(SRC:.cpp=.o)
 
 CXX = c++
-CXXFLAGS = -Wall -Werror -Wextra -std=c++98 -g
+CXXFLAGS = -Wall -Werror -Wextra -std=c++98 -g 
 RM = rm -rf
 
 all: $(NAME)

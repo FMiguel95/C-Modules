@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fernacar <fernacar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fernacar <fernacar@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 20:16:50 by fernacar          #+#    #+#             */
-/*   Updated: 2023/12/12 00:29:40 by fernacar         ###   ########.fr       */
+/*   Updated: 2023/12/18 23:11:01 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,47 +17,19 @@
 int main()
 {
 	std::cout << ">> Create ClapTrap and ScavTrap" << std::endl;
-	ClapTrap ze("Ze");
+	ClapTrap ct("Ze");
 	ScavTrap st("Coiso");
 
 	std::cout << std::endl;
 
-	// std::cout << ">> show basic actions" << std::endl;
-	// ze.attack("Esteves");
-	// ze.beRepaired(5);
-	// ze.takeDamage(8);
-	// ze.beRepaired(6);
-	// ze.beRepaired(4);
+	std::cout << ">> show basic actions" << std::endl;
+	ct.attack("Esteves");
+	st.attack("Esteves");
 	
-	// std::cout << std::endl;
+	std::cout << std::endl;
 
-	// std::cout << ">> spend all energy points" << std::endl;
-	// ze.attack("Esteves");
-	// ze.attack("Esteves");
-	// ze.attack("Esteves");
-	// ze.attack("Esteves");
-	// ze.attack("Esteves");
-	// ze.attack("Esteves");
-	// ze.attack("Esteves");
-
-	// std::cout << std::endl;
-	
-	// std::cout << ">> no energy left to do actions" << std::endl;
-	// ze.attack("Esteves");
-	// ze.takeDamage(5);
-	// ze.beRepaired(10);
-
-	// std::cout << std::endl;
-
-	// std::cout << ">> kill it" << std::endl;
-	// ze.takeDamage(9999);
-
-	// std::cout << std::endl;
-
-	// std::cout << ">> no hit points left to do actions" << std::endl;
-	// ze.attack("Esteves");
-	// ze.beRepaired(10);
-	// ze.takeDamage(5);
+	std::cout << ">> guard gate" << std::endl;
+	st.guardGate();
 
 	std::cout << std::endl;
 

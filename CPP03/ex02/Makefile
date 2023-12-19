@@ -1,6 +1,6 @@
-NAME = scavtrap
+NAME = fragtrap
 
-SRC = ClapTrap.cpp ScavTrap.cpp main.cpp
+SRC = ClapTrap.cpp ScavTrap.cpp FragTrap.cpp main.cpp
 
 BIN = $(SRC:.cpp=.o)
 
