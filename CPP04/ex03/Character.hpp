@@ -6,7 +6,7 @@
 /*   By: fernacar <fernacar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 22:12:53 by fernacar          #+#    #+#             */
-/*   Updated: 2023/12/20 22:37:28 by fernacar         ###   ########.fr       */
+/*   Updated: 2023/12/27 00:38:24 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ class Character : public ICharacter
 		void use(int idx, ICharacter& target);
 
 	private:
-		const std::string _name;
+		std::string _name;
 		AMateria* _inventory[4];
 };
 

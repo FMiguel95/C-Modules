@@ -6,7 +6,7 @@
 /*   By: fernacar <fernacar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 22:03:26 by fernacar          #+#    #+#             */
-/*   Updated: 2023/12/20 23:50:19 by fernacar         ###   ########.fr       */
+/*   Updated: 2023/12/26 21:35:51 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ class Ice : public AMateria
 		// Ice& operator =(const Ice& src);
 		~Ice();
 
-		Ice* clone() const;
+		AMateria* clone() const;
 		void use(ICharacter& target);
 
 	private:

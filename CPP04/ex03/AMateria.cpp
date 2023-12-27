@@ -6,7 +6,7 @@
 /*   By: fernacar <fernacar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 21:52:42 by fernacar          #+#    #+#             */
-/*   Updated: 2023/12/20 23:39:24 by fernacar         ###   ########.fr       */
+/*   Updated: 2023/12/26 21:32:29 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,7 @@ AMateria::AMateria() : _type("unkown") {}
 
 AMateria::AMateria(const std::string& type) : _type(type) {}
 
-AMateria::AMateria(const AMateria& src)
-{
-	*this = src;
-}
+AMateria::AMateria(const AMateria& src) : _type(src._type) {}
 
 AMateria& AMateria::operator =(const AMateria& src)
 {

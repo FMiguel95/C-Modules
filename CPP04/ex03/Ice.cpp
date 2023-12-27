@@ -6,7 +6,7 @@
 /*   By: fernacar <fernacar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 23:42:12 by fernacar          #+#    #+#             */
-/*   Updated: 2023/12/20 23:50:27 by fernacar         ###   ########.fr       */
+/*   Updated: 2023/12/26 21:35:53 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ Ice::Ice(const Ice& src)
 
 Ice::~Ice() {}
 
-Ice* Ice::clone() const
+AMateria* Ice::clone() const
 {
 	return new Ice();
 }
