@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   RobotomyRequestForm.cpp                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fernacar <fernacar@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/25 19:10:54 by fernacar          #+#    #+#             */
+/*   Updated: 2024/03/25 19:10:54 by fernacar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "RobotomyRequestForm.hpp"
 #include <cstdlib>
 #include <ctime>
 
-RobotomyRequestForm::RobotomyRequestForm() : Form("Robotomy Request", 75, 45), _target("") {}
+RobotomyRequestForm::RobotomyRequestForm() : Form("Robotomy Request", 72, 45), _target("") {}
 
 RobotomyRequestForm::RobotomyRequestForm(const std::string& target) : Form("Robotomy Request", 72, 45), _target(target) {}
 
