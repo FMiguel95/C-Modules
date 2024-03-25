@@ -11,13 +11,23 @@
 /* ************************************************************************** */
 
 #include "Bureaucrat.hpp"
+#include "Form.hpp"
 
 int main()
 {
+	Bureaucrat b("Bernie", 100);
+	
+	Form f1("form 1", 100, 90);
+	Form f2("form 2", 130, 120);
+	Form f3("form 3",  50,  40);
+
+	b.signForm(f1);
+	b.signForm(f2);
+	b.signForm(f3);
+
 	try
 	{
-		Bureaucrat b1("Bernie", 1);
-		std::cout << b1 << std::endl;
+		Form f("a form", 100, 160);
 	}
 	catch(const std::exception& e)
 	{
@@ -26,21 +36,11 @@ int main()
 
 	try
 	{
-		Bureaucrat b2("Barny", 160);
-		std::cout << b2 << std::endl;	
+		Form f("another form", -3, 120);
 	}
 	catch(const std::exception& e)
 	{
 		std::cerr << e.what() << '\n';
 	}
 	
-	try
-	{
-		Bureaucrat b3("Billy", 0);
-		std::cout << b3 << std::endl;
-	}
-	catch(const std::exception& e)
-	{
-		std::cerr << e.what() << '\n';
-	}
 }

@@ -11,36 +11,24 @@
 /* ************************************************************************** */
 
 #include "Bureaucrat.hpp"
+#include "ShrubberyCreationForm.hpp"
+#include "RobotomyRequestForm.hpp"
+#include "PresidentialPardonForm.hpp"
 
 int main()
 {
-	try
-	{
-		Bureaucrat b1("Bernie", 1);
-		std::cout << b1 << std::endl;
-	}
-	catch(const std::exception& e)
-	{
-		std::cerr << e.what() << '\n';
-	}
-
-	try
-	{
-		Bureaucrat b2("Barny", 160);
-		std::cout << b2 << std::endl;	
-	}
-	catch(const std::exception& e)
-	{
-		std::cerr << e.what() << '\n';
-	}
+	Bureaucrat top("Bernie", 1);
 	
-	try
-	{
-		Bureaucrat b3("Billy", 0);
-		std::cout << b3 << std::endl;
-	}
-	catch(const std::exception& e)
-	{
-		std::cerr << e.what() << '\n';
-	}
+	ShrubberyCreationForm s("home");
+	top.signForm(s);
+	top.executeForm(s);
+
+	RobotomyRequestForm r("procedure");
+	top.signForm(r);
+	top.executeForm(r);
+
+	PresidentialPardonForm p("that guy");
+	top.signForm(p);
+	top.executeForm(p);
+
 }
