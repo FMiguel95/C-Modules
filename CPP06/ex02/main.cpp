@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fernacar <fernacar@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/27 19:55:07 by fernacar          #+#    #+#             */
+/*   Updated: 2024/03/27 19:55:07 by fernacar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <iostream>
 #include <exception>
 #include <cstdlib>
@@ -69,4 +81,5 @@ int main()
 	Base* base = generate();
 	identify(base);
 	identify(*base);
+	delete base;
 }

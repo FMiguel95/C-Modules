@@ -1,7 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ScalarConverter.cpp                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fernacar <fernacar@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/27 19:54:23 by fernacar          #+#    #+#             */
+/*   Updated: 2024/03/27 19:54:23 by fernacar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ScalarConverter.hpp"
 #include <iomanip>
 #include <cstdlib>
 #include <climits>
+#include <cmath>
 
 ScalarConverter::ScalarConverter() {}
 
@@ -18,9 +31,226 @@ ScalarConverter& ScalarConverter::operator =(const ScalarConverter& src)
 	return *this;
 }
 
+
+static void convertFromChar(char c)
+{
+	// print char
+	std::cout << "char: '" << c << "'" << std::endl;
+
+	// print int
+	std::cout << "int: " << static_cast<int>(c) << std::endl;
+
+	// calculate precision
+	long temp = std::labs(c);
+	int len = 2;
+	while (temp >= 10)
+	{
+		len++;
+		temp /= 10;
+	}
+	std::cout << std::showpoint << std::setprecision(len);
+
+	// print float
+	std::cout << "float: "  << static_cast<float>(c) << "f" << std::endl;
+	
+	// print double
+	std::cout << "double: " << static_cast<double>(c) << std::endl;
+}
+
+static void convertFromInt(int i)
+{
+	// print char
+	if (i < CHAR_MIN || i > CHAR_MAX)
+		std::cout << "char: impossible" << std::endl;
+	else if (!std::isprint(i))
+		std::cout << "char: Non displayable" << std::endl;
+	else
+		std::cout << "char: '" << static_cast<char>(i) << "'" << std::endl;
+
+	// print int
+	std::cout << "int: " << i << std::endl;
+
+	// calculate precision
+	long temp = std::labs(i);
+	int len = 2;
+	while (temp >= 10)
+	{
+		len++;
+		temp /= 10;
+	}
+	std::cout << std::showpoint << std::setprecision(len);
+
+	// print float
+	std::cout << "float: "  << static_cast<float>(i) << "f" << std::endl;
+	
+	// print double
+	std::cout << "double: " << static_cast<double>(i) << std::endl;
+}
+
+static void convertFromFloat(float f)
+{
+	// print char
+	if (f != f || f < CHAR_MIN || f > CHAR_MAX)
+		std::cout << "char: impossible" << std::endl;
+	else if (f == f && !std::isprint(f))
+		std::cout << "char: Non displayable" << std::endl;
+	else
+		std::cout << "char: '" << static_cast<char>(f) << "'" << std::endl;
+
+	// print int
+	if (f != f || f < INT_MIN || f > INT_MAX)
+		std::cout << "int: impossible" << std::endl;
+	else
+		std::cout << "int: " << static_cast<int>(f) << std::endl;
+
+	// print float
+	if (f == std::floor(f) && std::isfinite(f))
+		std::cout << "float: "  << f << ".0f" << std::endl;
+	else
+		std::cout << "float: "  << f << "f" << std::endl;
+	
+	// print double
+	if (f == std::floor(f) && std::isfinite(f))
+		std::cout << "double: "  << static_cast<double>(f) << ".0" << std::endl;
+	else
+		std::cout << "double: " << static_cast<double>(f) << std::endl;
+}
+
+static void convertFromDouble(double d)
+{
+	// print char
+	if (d != d || d < CHAR_MIN || d > CHAR_MAX)
+		std::cout << "char: impossible" << std::endl;
+	else if (d == d && !std::isprint(d))
+		std::cout << "char: Non displayable" << std::endl;
+	else
+		std::cout << "char: '" << static_cast<char>(d) << "'" << std::endl;
+
+	// print int
+	if (d != d || d < INT_MIN || d > INT_MAX)
+		std::cout << "int: impossible" << std::endl;
+	else
+		std::cout << "int: " << static_cast<int>(d) << std::endl;
+
+	// print float
+	if ((float)d == std::floor((float)d) && std::isfinite(d))
+		std::cout << "float: "  << static_cast<float>(d) << ".0f" << std::endl;
+	else
+		std::cout << "float: "  << static_cast<float>(d) << "f" << std::endl;
+	
+	// print double
+	if (d == std::floor(d) && std::isfinite(d))
+		std::cout << "double: "  << d << ".0" << std::endl;
+	else
+		std::cout << "double: " << d << std::endl;
+}
+
+
 void ScalarConverter::convert(const std::string& literal)
 {
 	bool error = false;
+
+	// some validations
+	if (literal[0] == '\0' || literal[0] == ' ')
+	{
+		std::cerr << "Invalid value." << std::endl; // it's empty!
+		return;
+	}
+
+	// check for double
+	if (literal == "-inf" || literal == "+inf" || literal == "inf" || literal == "nan")
+	{
+		convertFromDouble(std::atof(literal.c_str()));
+		return;
+	}
+	if (literal.find('.') != std::string::npos && literal.find('f') == std::string::npos)
+	{
+		bool foundSeparator = false;
+		for (size_t i = 0; i < literal.length(); i++)
+		{
+			// skip plus or minus sign
+			if (i == 0 && (literal[0] == '-' || literal[0] == '+') && literal.length() > 1)
+				i++;
+			// more than one . is bad
+			if (literal[i] == '.')
+			{
+				if (!foundSeparator)
+					foundSeparator = true;
+				else
+				{
+					error = true;
+					break;
+				}
+			}
+			// characters other than digits or . is bad
+			if (!std::isdigit(literal[i]) && literal[i] != '.')
+			{
+				error = true;
+				break;
+			}
+			// . at end is bad
+			if (i == literal.length() - 1 && literal[i] == '.')
+			{
+				error = true;
+				break;
+			}
+		}
+		if (!error)
+		{
+			convertFromDouble(std::atof(literal.c_str()));
+			return;
+		}
+	}
+	// check for float
+	if (literal == "-inff" || literal == "+inff" || literal == "inff" || literal == "nanf")
+	{
+		convertFromFloat(std::atof(literal.c_str()));
+		return;
+	}
+	if (literal.find('.') != std::string::npos && literal.find('f') != std::string::npos)
+	{
+		bool foundSeparator = false;
+		for (size_t i = 0; i < literal.length(); i++)
+		{
+			// skip plus or minus sign
+			if (i == 0 && (literal[0] == '-' || literal[0] == '+') && literal.length() > 1)
+				i++;
+			// more than one . is bad
+			if (literal[i] == '.')
+			{
+				if (!foundSeparator)
+					foundSeparator = true;
+				else
+				{
+					error = true;
+					break;
+				}
+			}
+			// characters other than digits or . or f is bad
+			if (!std::isdigit(literal[i]) && literal[i] != '.' && literal[i] != 'f')
+			{
+				error = true;
+				break;
+			}
+			// f anywhere other than at the end is bad
+			if (literal[i] == 'f' && i != literal.length() - 1)
+			{
+				error = true;
+				break;
+			}
+			// . before f is bad
+			if (literal[i] == 'f' && literal[i - 1] == '.')
+			{
+				error = true;
+				break;
+			}
+		}
+		if (!error)
+		{
+			convertFromFloat(std::atof(literal.c_str()));
+			return;
+		}
+	}
 
 	// check for char
 	if (literal.length() == 1 && std::isprint(literal[0]) && !std::isdigit(literal[0]))
@@ -34,7 +264,7 @@ void ScalarConverter::convert(const std::string& literal)
 	long temp = 0;
 	for (size_t i = 0; i < literal.length(); i++)
 	{
-		if (i == 0 && literal[0] == '-' && literal.length() > 1)
+		if (i == 0 && (literal[0] == '-' || literal[0] == '+') && literal.length() > 1)
 			i++;
 		if (!std::isdigit(literal[i]))
 		{
@@ -55,75 +285,7 @@ void ScalarConverter::convert(const std::string& literal)
 		convertFromInt((int)temp);
 		return;
 	}
-	if (literal.find('f') != std::string::npos || literal == "+inff" || literal == "-inff" || literal == "nanf")
-	{
-		convertFromFloat(std::atof(literal.c_str()));
-		return;
-	}
+
+	// error
+	std::cerr << "Invalid value." << std::endl;
 }
-
-void ScalarConverter::convertFromChar(char c)
-{
-	std::cout << "char: '" << c << "'" << std::endl;
-	std::cout << "int: " << (int)c << std::endl;
-	std::cout << "float: " << (float)c << ".0f" << std::endl;
-	std::cout << "double: " << (double)c << ".0" << std::endl;
-}
-
-void ScalarConverter::convertFromInt(int i)
-{
-	// print char
-	if (i < CHAR_MIN || i > CHAR_MAX)
-		std::cout << "char: Impossible" << std::endl;
-	else if (!std::isprint(i))
-		std::cout << "char: Non displayable" << std::endl;
-	else
-		std::cout << "char: '" << (char)i << "'" << std::endl;
-
-	// print int
-	std::cout << "int: " << i << std::endl;
-
-	// calculate precision
-	long temp = std::labs(i);
-	int len = 2;
-	while (temp >= 10)
-	{
-		len++;
-		temp /= 10;
-	}
-	std::cout << std::showpoint << std::setprecision(len);
-
-	// print float
-	std::cout << "float: "  << (float)i << "f" << std::endl;
-	
-	// print double
-	std::cout << "double: " << (double)i << std::endl;
-}
-
-void ScalarConverter::convertFromFloat(float f)
-{
-	// print char
-	if (f < CHAR_MIN || f > CHAR_MAX)
-		std::cout << "char: Impossible" << std::endl;
-	else if (f != f && !std::isprint(f))
-		std::cout << "char: Non displayable" << std::endl;
-	else
-		std::cout << "char: '" << (char)f << "'" << std::endl;
-
-	// print int
-	if (f < INT_MIN || f > INT_MAX)
-		std::cout << "int: Impossible" << std::endl;
-	else
-		std::cout << "int: " << (int)f << std::endl;
-
-	// print float
-	std::cout << "float: "  << f << "f" << std::endl;
-	
-	// print double
-	std::cout << "double: " << (double)f << std::endl;
-}
-
-// void ScalarConverter::convertFromDouble(double d)
-// {
-
-// }
