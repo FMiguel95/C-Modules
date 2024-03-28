@@ -1,4 +1,4 @@
-NAME = temp
+NAME = arr
 
 SRC = main.cpp
 

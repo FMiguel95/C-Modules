@@ -1,4 +1,4 @@
-NAME = temp
+NAME = iter
 
 SRC = main.cpp
 
