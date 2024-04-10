@@ -20,8 +20,8 @@ int main(int ac, char** av)
 		std::cerr << "Usage ./btc <input file>" << std::endl;
 		return 1;
 	}
-	BitcoinExchange btc(av[1]);
-	btc.DisplayResult();
+	BitcoinExchange btc;
+	btc.DisplayResult(av[1]);
 	
 	return 0;
 }

@@ -16,15 +16,13 @@
 class BitcoinExchange
 {
 public:
-	BitcoinExchange(char* inputArg);
+	BitcoinExchange();
 	BitcoinExchange(const BitcoinExchange& src);
 	~BitcoinExchange();
 	BitcoinExchange& operator =(const BitcoinExchange& src);
 
-	void DisplayResult() const;
+	void DisplayResult(char* inputArg) const;
 	
 private:
-	std::map<std::string, float> _priceHistory;
-	
-	BitcoinExchange();
+	std::map<std::string, float> _priceHistory;	
 };

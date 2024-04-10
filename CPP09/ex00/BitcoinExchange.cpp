@@ -15,7 +15,7 @@
 #include <cstdlib>
 #include <cstring>
 
-BitcoinExchange::BitcoinExchange(char* inputArg)
+BitcoinExchange::BitcoinExchange()
 {
 	// open price history file
 	std::ifstream dataFile("data.csv");
@@ -33,27 +33,6 @@ BitcoinExchange::BitcoinExchange(char* inputArg)
 		_priceHistory.insert(std::pair<std::string,float>(date, value));
 	}
 	dataFile.close();
-
-	// open input file
-	std::ifstream inputFile(inputArg);
-	if (!inputFile)
-	{
-		std::cerr << "Error: could not open " << inputArg << ": " << std::strerror(errno) << std::endl;
-		return ;
-	}
-	// for each line, get the date and value and output the result
-	//
-	//
-	//
-	//
-	//
-	for (std::string line; std::getline(inputFile, line); ) 
-	{
-		size_t commaPos = line.find_first_of('|');
-		std::string date = line.substr(0, commaPos);
-		float value = std::atof((line.substr(commaPos + 1, line.length() - commaPos)).c_str());
-	}
-	inputFile.close();
 }
 
 BitcoinExchange::BitcoinExchange(const BitcoinExchange& src) : _priceHistory(src._priceHistory) {}
@@ -69,12 +48,21 @@ BitcoinExchange& BitcoinExchange::operator =(const BitcoinExchange& src)
 	return *this;
 }
 
-void BitcoinExchange::DisplayResult() const
+void BitcoinExchange::DisplayResult(char* inputArg) const
 {
-	// for (std::map<std::string,float>::const_iterator i = _inputData.begin(); i != _inputData.end(); ++i)
-	// {
-	// 	std::cout << (*i).first << " : " << (*i).second << std::endl;
-	// }
+	// open input file
+	std::ifstream inputFile(inputArg);
+	if (!inputFile)
+	{
+		std::cerr << "Error: could not open " << inputArg << ": " << std::strerror(errno) << std::endl;
+		return ;
+	}
+	// for each line, get the date and value and output the result
+	for (std::string line; std::getline(inputFile, line); ) 
+	{
+		size_t commaPos = line.find_first_of('|');
+		std::string date = line.substr(0, commaPos);
+		float value = std::atof((line.substr(commaPos + 1, line.length() - commaPos)).c_str());
+	}
+	inputFile.close();
 }
-
-BitcoinExchange::BitcoinExchange() {}
