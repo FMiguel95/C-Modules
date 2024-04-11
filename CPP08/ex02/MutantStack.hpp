@@ -10,8 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stack>
+#include <vector>
+#include <algorithm>
+
 template <typename T>
-class MutantStack
+class MutantStack : public std::stack<T>
 {
-	
+public:
+	MutantStack() : ;
+	MutantStack(const MutantStack& src);
+	MutantStack& operator =(const MutantStack& src);
+	~MutantStack();
+
+	std::vector<T> _list;
+
 };
