@@ -6,23 +6,35 @@
 /*   By: fernacar <fernacar@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 14:05:02 by fernacar          #+#    #+#             */
-/*   Updated: 2024/04/10 14:08:05 by fernacar         ###   ########.fr       */
+/*   Updated: 2024/04/11 15:40:12 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stack>
-#include <vector>
-#include <algorithm>
+#ifndef MUTANT_STACK_HPP
+# define MUTANT_STACK_HPP
+
+# include <stack>
+# include <iterator>
 
 template <typename T>
 class MutantStack : public std::stack<T>
 {
 public:
-	MutantStack() : ;
-	MutantStack(const MutantStack& src);
-	MutantStack& operator =(const MutantStack& src);
-	~MutantStack();
+	MutantStack() : std::stack<T>() {}
+	MutantStack(const MutantStack& src) : std::stack<T>(src) {}
+	MutantStack& operator =(const MutantStack& src)
+	{
+		if (this != &src) {
+			std::stack<T>::operator =(src);
+		}
+		return *this;
+	}
+	~MutantStack() {}
 
-	std::vector<T> _list;
+	typedef typename std::stack<T>::container_type::iterator iterator;
+	iterator begin() { return std::stack<T>::c.begin(); }
+	iterator end() { return std::stack<T>::c.end(); }
 
 };
+
+#endif

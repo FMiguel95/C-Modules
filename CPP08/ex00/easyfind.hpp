@@ -6,9 +6,13 @@
 /*   By: fernacar <fernacar@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 19:32:57 by fernacar          #+#    #+#             */
-/*   Updated: 2024/04/10 13:27:10 by fernacar         ###   ########.fr       */
+/*   Updated: 2024/04/11 14:51:12 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifndef EASYFIND_HPP
+# define EASYFIND_HPP
+
 
 #include <algorithm>
 #include <stdexcept>
@@ -21,3 +25,5 @@ int& easyfind(T& array, int value)
 		throw std::invalid_argument("value not found");
 	return *iter;
 }
+
+#endif

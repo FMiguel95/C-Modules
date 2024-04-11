@@ -6,9 +6,13 @@
 /*   By: fernacar <fernacar@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:42:22 by fernacar          #+#    #+#             */
-/*   Updated: 2024/04/10 13:53:31 by fernacar         ###   ########.fr       */
+/*   Updated: 2024/04/11 14:50:45 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifndef SPAN_HPP
+# define SPAN_HPP
+
 
 #include <vector>
 #include <algorithm>
@@ -45,3 +49,5 @@ private:
 
 	Span();
 };
+
+#endif
