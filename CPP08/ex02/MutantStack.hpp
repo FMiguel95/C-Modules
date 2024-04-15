@@ -6,7 +6,7 @@
 /*   By: fernacar <fernacar@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 14:05:02 by fernacar          #+#    #+#             */
-/*   Updated: 2024/04/11 15:40:12 by fernacar         ###   ########.fr       */
+/*   Updated: 2024/04/15 13:26:55 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MUTANT_STACK_HPP
 
 # include <stack>
-# include <iterator>
 
 template <typename T>
 class MutantStack : public std::stack<T>
@@ -34,7 +33,6 @@ public:
 	typedef typename std::stack<T>::container_type::iterator iterator;
 	iterator begin() { return std::stack<T>::c.begin(); }
 	iterator end() { return std::stack<T>::c.end(); }
-
 };
 
 #endif

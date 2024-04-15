@@ -6,13 +6,12 @@
 /*   By: fernacar <fernacar@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 19:32:57 by fernacar          #+#    #+#             */
-/*   Updated: 2024/04/11 14:51:12 by fernacar         ###   ########.fr       */
+/*   Updated: 2024/04/15 14:05:27 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EASYFIND_HPP
 # define EASYFIND_HPP
-
 
 #include <algorithm>
 #include <stdexcept>

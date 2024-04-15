@@ -6,13 +6,12 @@
 /*   By: fernacar <fernacar@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:42:22 by fernacar          #+#    #+#             */
-/*   Updated: 2024/04/11 14:50:45 by fernacar         ###   ########.fr       */
+/*   Updated: 2024/04/15 14:05:45 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SPAN_HPP
 # define SPAN_HPP
-
 
 #include <vector>
 #include <algorithm>
@@ -27,9 +26,9 @@ public:
 	~Span();
 
 	void addNumber(int number);
+	void addNumber(std::vector<int>::iterator begin, std::vector<int>::iterator end);
 	int shortestSpan() const;
 	int longestSpan() const;
-	void addManyNumbers();
 
 	class ListFullException : public std::exception
 	{

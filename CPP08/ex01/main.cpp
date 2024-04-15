@@ -1,5 +1,17 @@
-#include <iostream>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fernacar <fernacar@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/15 14:06:27 by fernacar          #+#    #+#             */
+/*   Updated: 2024/04/15 14:06:31 by fernacar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Span.hpp"
+#include <iostream>
 
 int main()
 {
@@ -43,6 +55,44 @@ int main()
 	{
 		std::cerr << e.what() << '\n';
 	}
+
+	std::cout << ">> adding 10 numbers at once" << std::endl;
+	sp = Span(20000);
+	std::vector<int> v;
+	for (size_t i = 0; i < 10; i++)
+	{
+		v.push_back(i);
+	}
+	sp.addNumber(v.begin(), v.end());
+	std::cout << "sp.shortestSpan(): " << sp.shortestSpan() << std::endl;
+	std::cout << "sp.longestSpan(): " << sp.longestSpan() << std::endl;
+
+	std::cout << ">> adding 10000 more numbers at once..." << std::endl;
+	for (size_t i = 0; i < 10000; i++)
+	{
+		v.push_back(i);
+	}
+	sp.addNumber(v.begin(), v.end());
+	std::cout << "sp.shortestSpan(): " << sp.shortestSpan() << std::endl;
+	std::cout << "sp.longestSpan(): " << sp.longestSpan() << std::endl;
+
+	std::cout << ">> adding too many numbers at once" << std::endl;
+	sp = Span(123);
+	v.erase(v.begin(), v.end());
+	try
+	{
+		for (size_t i = 0; i < 300; i++)
+		{
+			v.push_back(i);
+		}
+		sp.addNumber(v.begin(), v.end());
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+	}
+	std::cout << "sp.shortestSpan(): " << sp.shortestSpan() << std::endl;
+	std::cout << "sp.longestSpan(): " << sp.longestSpan() << std::endl;
 
 	return 0;
 }

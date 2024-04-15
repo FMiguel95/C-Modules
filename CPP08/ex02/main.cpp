@@ -6,13 +6,13 @@
 /*   By: fernacar <fernacar@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 14:49:31 by fernacar          #+#    #+#             */
-/*   Updated: 2024/04/11 15:47:20 by fernacar         ###   ########.fr       */
+/*   Updated: 2024/04/15 14:06:10 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
 #include "MutantStack.hpp"
 #include <list>
+#include <iostream>
 
 int main()
 {
@@ -46,29 +46,47 @@ int main()
 	list.push_back(0);
 	
 	MutantStack<int>::iterator it_ms = mstack.begin();
-	MutantStack<int>::iterator it_list = mstack.begin();
+	std::list<int>::iterator it_list = list.begin();
 	MutantStack<int>::iterator ite_ms = mstack.end();
-	MutantStack<int>::iterator ite_list = mstack.end();
-	
+	std::list<int>::iterator ite_list = list.end();
 	++it_ms;
 	++it_list;
 	--ite_ms;
 	--ite_list;
 	
 	std::cout << ">> mstack iterate" << std::endl;
-	while (it_ms != ite_ms)
+	for (MutantStack<int>::iterator i = mstack.begin(); i != mstack.end(); ++i)
 	{
-		std::cout << *it_ms << std::endl;
-		++it_ms;
+		std::cout << *i << std::endl;
 	}
 	std::cout << ">> list iterate" << std::endl;
-	while (it_list != ite_list)
+	for (std::list<int>::iterator i = list.begin(); i != list.end(); ++i)
 	{
-		std::cout << *it_list << std::endl;
-		++it_list;
+		std::cout << *i << std::endl;
 	}
 
-	std::stack<int> s(mstack);
+	std::cout << ">> create stack from mutant stack" << std::endl;
+	std::stack<int> stack(mstack);
+	std::cout << ">> change stack" << std::endl;
+	stack.pop();
+	std::cout << ">> original is not affected" << std::endl;
+	std::cout << "mstack.top: " << mstack.top() << std::endl;
+	std::cout << "stack.top: " << stack.top() << std::endl;
 
+	std::cout << ">> assignment operator" << std::endl;
+	MutantStack<int> mstack2 = mstack;
+	mstack2.pop();
+	std::cout << ">> original is not affected" << std::endl;
+	std::cout << "mstack.top: " << mstack.top() << std::endl;
+	std::cout << "mstack2.top: " << mstack2.top() << std::endl;
+
+	std::cout << ">> copy constructor" << std::endl;
+	MutantStack<int> mstack3(mstack2);
+	mstack3.pop();
+	std::cout << ">> original is not affected" << std::endl;
+	std::cout << "mstack.top: " << mstack.top() << std::endl;
+	std::cout << "mstack2.top: " << mstack2.top() << std::endl;
+	std::cout << "mstack3.top: " << mstack3.top() << std::endl;
+	
 	return 0;
 }
