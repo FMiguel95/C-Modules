@@ -10,8 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <map>
-#include <iostream>
+#ifndef BITCOIN_EXCHANGE_HPP
+# define BITCOIN_EXCHANGE_HPP
+
+# include <map>
+# include <iostream>
 
 class BitcoinExchange
 {
@@ -25,4 +28,9 @@ public:
 	
 private:
 	std::map<std::string,float> _priceHistory;
+
+	bool ValidateDate(const std::string& dateStr) const;
+	float GetPrice(const std::string& dateStr) const;
 };
+
+#endif

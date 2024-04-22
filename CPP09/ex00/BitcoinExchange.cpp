@@ -50,7 +50,7 @@ BitcoinExchange& BitcoinExchange::operator =(const BitcoinExchange& src)
 	return *this;
 }
 
-static bool ValidateDate(const std::string& dateStr)
+bool BitcoinExchange::ValidateDate(const std::string& dateStr) const
 {
 	size_t dateDelimiter1 = dateStr.find("-");
 	size_t dateDelimiter2 = dateStr.find_last_of("-");
@@ -87,14 +87,16 @@ static bool ValidateDate(const std::string& dateStr)
 	return true;
 }
 
+float BitcoinExchange::GetPrice(const std::string& dateStr) const
+{
+	std::map<std::string, float>::const_iterator i = _priceHistory.upper_bound(dateStr);
+	if (i != _priceHistory.begin())
+		i--;
+	return i->second;
+}
+
 void BitcoinExchange::DisplayResult(char* inputArg) const
 {
-	// for (std::_Rb_tree_const_iterator<std::pair<const std::string, float> > i = _priceHistory.begin(); i != _priceHistory.end(); ++i)
-	// {
-	// 	std::cout << i->first << " " << i->second << std::endl;
-	// }
-	// (void)inputArg;
-	
 	// open input file
 	std::ifstream inputFile(inputArg);
 	if (!inputFile)
@@ -107,6 +109,7 @@ void BitcoinExchange::DisplayResult(char* inputArg) const
 	std::getline(inputFile, line); // skip first line
 	while (std::getline(inputFile, line)) 
 	{
+		// get delimiter position
 		size_t delimiterPos = line.find(" | ");
 		if (delimiterPos == std::string::npos)
 		{
@@ -138,11 +141,8 @@ void BitcoinExchange::DisplayResult(char* inputArg) const
 			continue;
 		}
 		
-		// TODO fix it
-		float converstion = amount * _priceHistory.upper_bound(dateStr)->second;
-		std::cout << dateStr << " => " << amount << " = " << converstion << " (" << amount << "*" << _priceHistory.lower_bound(dateStr)->second << ")" << "from " << _priceHistory.lower_bound(dateStr)->first << std::endl;
+		float converstion = amount * GetPrice(dateStr);
+		std::cout << dateStr << " => " << amount << " = " << converstion << std::endl;
 	}
-
-	std::cout << 1.0 * 0.32f << std::endl;
 	inputFile.close();
 }
