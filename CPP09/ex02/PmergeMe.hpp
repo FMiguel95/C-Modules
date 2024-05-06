@@ -6,7 +6,7 @@
 /*   By: fernacar <fernacar@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 21:12:07 by fernacar          #+#    #+#             */
-/*   Updated: 2024/04/30 18:58:25 by fernacar         ###   ########.fr       */
+/*   Updated: 2024/05/06 23:57:40 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,31 +25,22 @@ public:
 	PmergeMe(const PmergeMe& src);
 	PmergeMe& operator =(const PmergeMe& src);
 	~PmergeMe();
-	
-	std::vector<unsigned int> sortVector() ;
-	std::deque<unsigned int> sortDeque() const;
 
-	template <typename T>
-	void print_list(T& list)
-	{
-		for (typename T::iterator i = list.begin(); i != list.end(); ++i)
-		{
-			std::cout << *i << std::endl;
-		}
-	}
-	
-private:
-	int _comp;
+private:	
+	std::vector<unsigned int> _vector;
+	std::deque<unsigned int> _deque;
+
 	typedef std::pair< std::vector<unsigned int>,std::vector<unsigned int> > pairVector;
-	
-	std::vector<unsigned int>_vector;
-	std::deque<unsigned int>_deque;
+	std::vector<unsigned int> sortVector();
+	pairVector mergeSortPairsVector(pairVector pair);
+	pairVector mergeVectors(pairVector p1, pairVector p2);
 
-	pairVector mergeSortPairsVector(pairVector pair) ;
-	pairVector mergeVectors(pairVector p1, pairVector p2) ;
+	typedef std::pair< std::deque<unsigned int>,std::deque<unsigned int> > pairDeque;
+	std::deque<unsigned int> sortDeque();
+	pairDeque mergeSortPairsDeque(pairDeque pair);
+	pairDeque mergeDeques(pairDeque p1, pairDeque p2);
 
 	PmergeMe();
-	
 };
 
 #endif

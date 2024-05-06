@@ -6,7 +6,7 @@
 /*   By: fernacar <fernacar@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 21:02:10 by fernacar          #+#    #+#             */
-/*   Updated: 2024/04/16 18:53:52 by fernacar         ###   ########.fr       */
+/*   Updated: 2024/05/07 00:01:29 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ bool BitcoinExchange::ValidateDate(const std::string& dateStr) const
 	long month = std::atol(monthStr.c_str());
 	long day = std::atol(dayStr.c_str());
 	// validate ranges
-	if (year < 1 || month < 0 || month > 12 || day < 0 || day > 31)
+	if (year < 1 || month < 1 || month > 12 || day < 1 || day > 31)
 		return false;
 	
 	// validate 30 day months

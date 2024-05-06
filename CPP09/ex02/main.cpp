@@ -6,46 +6,66 @@
 /*   By: fernacar <fernacar@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 21:11:54 by fernacar          #+#    #+#             */
-/*   Updated: 2024/04/30 19:06:26 by fernacar         ###   ########.fr       */
+/*   Updated: 2024/05/06 23:46:11 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
+#include <ctime>
 #include <iostream>
 
 
 
 int main(int ac, char** av)
 {
-	bool error = false;
+	if (ac < 3)
+	{
+		std::cout << "Needs at least 2 arguments." << std::endl;
+		return 1;
+	}
+	bool quit = false;
+	// check for non digits, just 0, and empty args
 	for (int i = 1; i < ac; i++)
 	{
+		bool error = false;
 		std::string arg(av[i]);
 		for (size_t j = 0; j < arg.length(); j++)
 		{
-			// and empty strings...?
-			if (!std::isdigit(av[i][j]) || arg.length() == 0)
+			if (!std::isdigit(av[i][j]))
 			{
-				std::cerr << "Argument '" << arg << "' is not a positive number." << std::endl;
 				error = true;
+				break;
+			}
+		}
+		if (arg.length() == 0 || arg == "0")
+			error = true;
+		if (error)
+		{
+			std::cout << "Argument '" << arg << "' is not a positive number." << std::endl;
+			quit = true;
+		}
+	}
+	if (quit)
+		return 1;
+
+	// check for duplicates
+	for (int i = 1; i < ac; i++)
+	{
+		std::string arg(av[i]);
+		for (int j = i + 1; j < ac; j++)
+		{
+			if (arg == av[j])
+			{
+				std::cout << arg << ": duplicate argument." << std::endl;
+				quit = true;
+				break;
 			}
 		}
 	}
-	if (error)
+	if (quit)
 		return 1;
 
 	PmergeMe fj(ac, av);
-	std::vector<unsigned int> vec = fj.sortVector();
-
-	for (size_t i = 1; i < vec.size(); i++)
-	{
-		if (vec[i] < vec[i-1])
-		{
-			std::cout << "NOT SORTED >:(" << std::endl;
-			return 1;
-		}
-	}
-	std::cout << "sorted" << std::endl;
 	
 	return 0;
 }

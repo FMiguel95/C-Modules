@@ -6,22 +6,39 @@
 /*   By: fernacar <fernacar@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 21:12:15 by fernacar          #+#    #+#             */
-/*   Updated: 2024/05/02 20:16:55 by fernacar         ###   ########.fr       */
+/*   Updated: 2024/05/07 00:02:51 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
-#include <ctime>
 
 PmergeMe::PmergeMe(int ac, char**av)
 {
+	std::cout << "Before:\t";
 	for (int i = 1; i < ac; i++)
 	{
 		int number = std::atoi(av[i]);
-		// std::cout << number << std::endl;
+		std::cout << number << " ";
 		_vector.push_back(number);
 		_deque.push_back(number);
-	}	
+	}
+	std::cout << std::endl;
+
+	clock_t startVector = clock();
+	std::vector<unsigned int> vec = sortVector();
+	double endTimeVector = (clock() - startVector ) / (double)CLOCKS_PER_SEC * 1000;
+
+	clock_t startDeque = clock();
+	std::deque<unsigned int> deq = sortDeque();
+	double endTimeDeque = (clock() - startDeque ) / (double)CLOCKS_PER_SEC * 1000;
+
+	std::cout << "After:\t";
+	for (std::vector<unsigned int>::iterator i = vec.begin(); i != vec.end(); ++i)
+		std::cout << *i << " ";
+	std::cout << std::endl;
+
+	std::cout << "Time to process a range of " << vec.size() << " elements with std::vector : " << endTimeVector << " ms" << std::endl;
+	std::cout << "Time to process a range of " << deq.size() << " elements with std::deque : " << endTimeDeque << " ms" << std::endl;
 }
 
 PmergeMe::PmergeMe(const PmergeMe& src) : _vector(src._vector), _deque(src._deque) {}
@@ -38,10 +55,10 @@ PmergeMe& PmergeMe::operator =(const PmergeMe& src)
 
 PmergeMe::~PmergeMe() {}
 
+PmergeMe::PmergeMe() {}
+
 std::vector<unsigned int> PmergeMe::sortVector()
 {
-	clock_t start = clock();
-	_comp = 0;
 	// save and remove last element if odd number
 	std::vector<unsigned int>::const_iterator straggler;
 	if (_vector.size() % 2)
@@ -51,120 +68,78 @@ std::vector<unsigned int> PmergeMe::sortVector()
 
 	// create list of pairs
 	pairVector pair;
+	std::vector<unsigned int>& pend = pair.first;
+	std::vector<unsigned int>& main = pair.second;
 	for (size_t i = 0; i < _vector.size() / 2; i++)
 	{
-		pair.first.push_back(_vector[i * 2]);
-		pair.second.push_back(_vector[i * 2 + 1]);
+		pend.push_back(_vector[i * 2]);
+		main.push_back(_vector[i * 2 + 1]);
 	}
-	// std::cout << ">>> pairs" << std::endl;
-	// for (size_t i = 0; i < _vector.size() / 2; i++)
-	// 	std::cout << pair.first[i] << " : " << pair.second[i] << std::endl;
 		
 	// for each pair compare elements and sort them
 	for (size_t i = 0; i < _vector.size() / 2; i++)
 	{
-		_comp++;
-		if (pair.first[i] > pair.second[i])
-		{
-			unsigned int temp = pair.first[i];
-			pair.first[i] = pair.second[i];
-			pair.second[i] = temp;
-		}
+		if (pend[i] > main[i])
+			std::swap(pend[i], main[i]);
 	}
-	std::cout << ">>> pairs after sort" << std::endl;
-	// for (size_t i = 0; i < _vector.size() / 2; i++)
-	// 	std::cout << pair.first[i] << " : " << pair.second[i] << std::endl;
 	
 	// recursively sort pairs based on largest element
-	std::cout << ">>> merge sort" << std::endl;
 	pair = mergeSortPairsVector(pair);
-	// for (size_t i = 0; i < _vector.size() / 2; i++)
-	// 	std::cout << pair.first[i] << " : " << pair.second[i] << std::endl;
 
-	// send smallest member of pend to the start of main
-	pair.second.insert(pair.second.begin(), pair.first[0]);
-	pair.first.erase(pair.first.begin());
-	// std::cout << ">>> smallest member of pend to start of main" << std::endl;
-	// for (size_t i = 0; i < pair.second.size(); i++)
-	// 	std::cout << pair.second[i] << std::endl;
+	// move smallest member of pend to the start of main
+	main.insert(main.begin(), pend.front());
+	pend.erase(pend.begin());
 
-	// std::cout << ">>> the pend btw" << std::endl;
-	// for (size_t i = 0; i < pair.first.size(); i++)
-	// 	std::cout << pair.first[i] << std::endl;
-	
 	// order pend for best insertion sequence
-	//
-	//
 	//// create list of pend numbers and their main pair
-	std::vector<unsigned int> main = pair.second;
-	std::vector< std::pair<unsigned int, unsigned int> > pend;
-	for (size_t i = 0; i < pair.first.size(); i++)
+	std::vector< std::pair<unsigned int, unsigned int> > pendPair;
+	for (size_t i = 0; i < pend.size(); i++)
 	{
 		std::pair<unsigned int, unsigned int> temp;
-		temp.first = pair.first[i];
-		temp.second = pair.second[i + 2];
-		pend.push_back(temp);
+		temp.first = pend[i];
+		temp.second = main[i + 2];
+		pendPair.push_back(temp);
 	}
-	// std::cout << ">>> more pend info" << std::endl;
-	// for (size_t i = 0; i < pair.first.size(); i++)
-	// 	std::cout << pend[i].first << "(paired with " << pend[i].second << ")" << std::endl;
-
-	//// create list of lists of pairs of numbers/numbers 😩
-	std::vector<std::vector< std::pair<unsigned int, unsigned int> > > super_pend;
-	//// fill the list with the best insertion order
+	//// create list of lists of pairs of numbers/numbers 😩 and fill it with the best insertion order
+	std::vector<std::vector< std::pair<unsigned int, unsigned int> > > pendJacobsthal;
 	unsigned int prev_amount = 0;
 	unsigned int new_amount = 2;
 	unsigned int current_amount = new_amount;
-	while (!pend.empty())
+	while (!pendPair.empty())
 	{
 		std::vector< std::pair<unsigned int, unsigned int> > newlist;
-		while (current_amount > 0 && !pend.empty())
+		while (current_amount > 0 && !pendPair.empty())
 		{
-			if (current_amount <= pend.size())
+			if (current_amount <= pendPair.size())
 			{
-				newlist.push_back(pend[current_amount - 1]);
-				pend.erase(pend.begin() + current_amount - 1);
+				newlist.push_back(pendPair[current_amount - 1]);
+				pendPair.erase(pendPair.begin() + current_amount - 1);
 			}
 			current_amount--;
 		}
-		super_pend.push_back(newlist);
+		pendJacobsthal.push_back(newlist);
 		current_amount = prev_amount * 2 + new_amount;
 		prev_amount = new_amount;
 		new_amount = current_amount;
 	}
 
-	// std::cout << ">>> SUPER pend" << std::endl;
-	// for (size_t i = 0; i < super_pend.size(); i++)
-	// {
-	// 	std::cout << "------- SIZE : " << super_pend[i].size() << std::endl;
-	// 	for (size_t j = 0; j < super_pend[i].size(); j++)
-	// 	{
-	// 		std::cout << super_pend[i][j].first << "(paired with " << (super_pend[i][j].second) << ")" << std::endl;
-	// 	}
-	// }
-	
 	// insert elements from pend to main
 	// use binary search to find the insertion position
 	// search from 0 up to not including the element it was paired with
-	// std::cout << ">>> INSERTION" << std::endl;
-	while (!super_pend.empty())
+	while (!pendJacobsthal.empty())
 	{
-		while (!super_pend[0].empty())
+		while (!pendJacobsthal.front().empty())
 		{
-			unsigned int value = super_pend[0][0].first;
-			unsigned int valuesPair = (super_pend[0][0].second);
+			unsigned int value = pendJacobsthal.front().front().first;
 			int lowerBound = 0;
-			int upperBound = std::find(pair.second.begin(), pair.second.end(), valuesPair) - pair.second.begin();
+			int upperBound = std::find(main.begin(), main.end(), pendJacobsthal.front().front().second) - main.begin();	// index of the number the value was paired with
 			int insertIndex;
-			// std::cout << "> inserting value : " << value << ", paired with " << valuesPair << " (index " << upperBound << ")" << std::endl;
 			while (true)
 			{
-				_comp++;
 				insertIndex = (upperBound + lowerBound) / 2;
-				// std::cout << lowerBound << "(" << pair.second[lowerBound] << ") : " << insertIndex << "(" << pair.second[insertIndex] << ") : " << upperBound << "(" << pair.second[upperBound] << ")" << std::endl;
-				if (lowerBound == upperBound || insertIndex == 0 || (value > pair.second[insertIndex-1] && value < pair.second[insertIndex]))
+				if (lowerBound == upperBound || insertIndex == 0 || (value > main[insertIndex-1] && value < main[insertIndex]))
 					break;
-				if (value > pair.second[insertIndex])
+				if (value > main[insertIndex])
 				{
 					if (lowerBound == (upperBound - 1))
 						lowerBound = upperBound;
@@ -175,34 +150,28 @@ std::vector<unsigned int> PmergeMe::sortVector()
 				{
 					if (lowerBound == (upperBound - 1))
 						upperBound = lowerBound;
-					upperBound = insertIndex;
+					else
+						upperBound = insertIndex;
 				}
 			}
-			
-			
-			pair.second.insert(pair.second.begin() + insertIndex, value);
-			super_pend[0].erase(super_pend[0].begin());
-			// for (size_t i = 0; i < pair.second.size(); i++)
-			// 	std::cout << pair.second[i] << std::endl;
+			main.insert(main.begin() + insertIndex, value);
+			pendJacobsthal.front().erase(pendJacobsthal.front().begin());
 		}
-		super_pend.erase(super_pend.begin());
+		pendJacobsthal.erase(pendJacobsthal.begin());
 	}
-	
-	// THE STARGGLER
+
+	// likewise insert the straggler if it exists
 	if (straggler != _vector.end())
 	{
 		int lowerBound = 0;
-		int upperBound = pair.second.size();
+		int upperBound = main.size();
 		int insertIndex;
-		//std::cout << "> inserting value : " << *straggler << ", paired with *SOMETHING* (index " << upperBound << ")" << std::endl;
 		while (true)
 		{
-			_comp++;
 			insertIndex = (upperBound + lowerBound) / 2;
-			// std::cout << lowerBound << "(" << pair.second[lowerBound] << ") : " << insertIndex << "(" << pair.second[insertIndex] << ") : " << upperBound << "(" << pair.second[upperBound] << ")" << std::endl;
-			if ((*straggler > pair.second[insertIndex-1] && *straggler < pair.second[insertIndex]) || lowerBound == upperBound)
+			if (lowerBound == upperBound || insertIndex == 0 || (*straggler > main[insertIndex-1] && *straggler < main[insertIndex]))
 				break;
-			if (*straggler > pair.second[insertIndex])
+			if (*straggler > main[insertIndex])
 			{
 				if (lowerBound == (upperBound - 1))
 					lowerBound = upperBound;
@@ -213,28 +182,15 @@ std::vector<unsigned int> PmergeMe::sortVector()
 			{
 				if (lowerBound == (upperBound - 1))
 					upperBound = lowerBound;
-				upperBound = insertIndex;
+				else
+					upperBound = insertIndex;
 			}
 		}
-		pair.second.insert(pair.second.begin() + insertIndex, *straggler);
-		// for (size_t i = 0; i < pair.second.size(); i++)
-		// 	std::cout << pair.second[i] << std::endl;
+		main.insert(main.begin() + insertIndex, *straggler);
 	}
 
-	
-	std::cout << ">>> COMP : " << _comp << std::endl;
-	std::cout << "time : " << (clock() - start ) / (double)CLOCKS_PER_SEC * 1000 << " ms" << std::endl;
-		
-	return pair.second;
+	return main;
 }
-
-// std::deque<unsigned int> PmergeMe::sortDeque() 
-// {
-	
-// 	return _deque;
-// }
-
-PmergeMe::PmergeMe() {}
 
 PmergeMe::pairVector PmergeMe::mergeSortPairsVector(pairVector pair)
 {
@@ -254,7 +210,7 @@ PmergeMe::pairVector PmergeMe::mergeSortPairsVector(pairVector pair)
 		p2.first.push_back(pair.first[i]);
 		p2.second.push_back(pair.second[i]);
 	}
-	
+
 	p1 = mergeSortPairsVector(p1);
 	p2 = mergeSortPairsVector(p2);
 
@@ -281,7 +237,204 @@ PmergeMe::pairVector PmergeMe::mergeVectors(pairVector p1, pairVector p2)
 			res.first.push_back(p1.first[i]);
 			i++;
 		}
-		_comp++;
+	}
+
+	while (i < p1.second.size())
+	{
+		res.second.push_back(p1.second[i]);
+		res.first.push_back(p1.first[i]);
+		i++;
+	}
+	while (j < p2.second.size())
+	{
+		res.second.push_back(p2.second[j]);
+		res.first.push_back(p2.first[j]);
+		j++;
+	}
+
+	return res;
+}
+
+std::deque<unsigned int> PmergeMe::sortDeque()
+{
+	// save and remove last element if odd number
+	std::deque<unsigned int>::const_iterator straggler;
+	if (_deque.size() % 2)
+		straggler = _deque.end() - 1;
+	else
+		straggler = _deque.end();
+
+	// create list of pairs
+	pairDeque pair;
+	std::deque<unsigned int>& pend = pair.first;
+	std::deque<unsigned int>& main = pair.second;
+	for (size_t i = 0; i < _deque.size() / 2; i++)
+	{
+		pend.push_back(_deque[i * 2]);
+		main.push_back(_deque[i * 2 + 1]);
+	}
+
+	// for each pair compare elements and sort them
+	for (size_t i = 0; i < _deque.size() / 2; i++)
+	{
+		if (pend[i] > main[i])
+			std::swap(pend[i], main[i]);
+	}
+
+	// recursively sort pairs based on largest element
+	pair = mergeSortPairsDeque(pair);
+
+	// move smallest member of pend to the start of main
+	main.push_front(pend.front());
+	pend.pop_front();
+
+	// order pend for best insertion sequence
+	//// create list of pend numbers and their main pair
+	std::deque< std::pair<unsigned int, unsigned int> > pendPair;
+	for (size_t i = 0; i < pend.size(); i++)
+	{
+		std::pair<unsigned int, unsigned int> temp;
+		temp.first = pend[i];
+		temp.second = main[i + 2];
+		pendPair.push_back(temp);
+	}
+	//// create list of lists of pairs of numbers/numbers 😩 and fill it with the best insertion order
+	std::deque<std::deque< std::pair<unsigned int, unsigned int> > > pendJacobsthal;
+	unsigned int prev_amount = 0;
+	unsigned int new_amount = 2;
+	unsigned int current_amount = new_amount;
+	while (!pendPair.empty())
+	{
+		std::deque< std::pair<unsigned int, unsigned int> > newlist;
+		while (current_amount > 0 && !pendPair.empty())
+		{
+			if (current_amount <= pendPair.size())
+			{
+				newlist.push_back(pendPair[current_amount - 1]);
+				pendPair.erase(pendPair.begin() + current_amount - 1);
+			}
+			current_amount--;
+		}
+		pendJacobsthal.push_back(newlist);
+		current_amount = prev_amount * 2 + new_amount;
+		prev_amount = new_amount;
+		new_amount = current_amount;
+	}
+
+	// insert elements from pend to main
+	// use binary search to find the insertion position
+	// search from 0 up to not including the element it was paired with
+	while (!pendJacobsthal.empty())
+	{
+		while (!pendJacobsthal.front().empty())
+		{
+			unsigned int value = pendJacobsthal.front().front().first;
+			int lowerBound = 0;
+			int upperBound = std::find(main.begin(), main.end(), pendJacobsthal.front().front().second) - main.begin();	// index of the number the value was paired with
+			int insertIndex;
+			while (true)
+			{
+				insertIndex = (upperBound + lowerBound) / 2;
+				if (lowerBound == upperBound || insertIndex == 0 || (value > main[insertIndex-1] && value < main[insertIndex]))
+					break;
+				if (value > main[insertIndex])
+				{
+					if (lowerBound == (upperBound - 1))
+						lowerBound = upperBound;
+					else
+						lowerBound = insertIndex;
+				}
+				else
+				{
+					if (lowerBound == (upperBound - 1))
+						upperBound = lowerBound;
+					else
+						upperBound = insertIndex;
+				}
+			}
+			main.insert(main.begin() + insertIndex, value);
+			pendJacobsthal.front().pop_front();
+		}
+		pendJacobsthal.erase(pendJacobsthal.begin());
+	}
+
+	// likewise insert the straggler if it exists
+	if (straggler != _deque.end())
+	{
+		int lowerBound = 0;
+		int upperBound = main.size();
+		int insertIndex;
+		while (true)
+		{
+			insertIndex = (upperBound + lowerBound) / 2;
+			if (lowerBound == upperBound || insertIndex == 0 || (*straggler > main[insertIndex-1] && *straggler < main[insertIndex]))
+				break;
+			if (*straggler > main[insertIndex])
+			{
+				if (lowerBound == (upperBound - 1))
+					lowerBound = upperBound;
+				else
+					lowerBound = insertIndex;
+			}
+			else
+			{
+				if (lowerBound == (upperBound - 1))
+					upperBound = lowerBound;
+				else
+					upperBound = insertIndex;
+			}
+		}
+		main.insert(main.begin() + insertIndex, *straggler);
+	}
+
+	return main;
+}
+
+PmergeMe::pairDeque PmergeMe::mergeSortPairsDeque(pairDeque pair)
+{
+	if (pair.second.size() <= 1)
+		return pair;
+
+	pairDeque p1;
+	pairDeque p2;
+
+	for (size_t i = 0; i < pair.second.size() / 2; i++)
+	{
+		p1.first.push_back(pair.first[i]);
+		p1.second.push_back(pair.second[i]);
+	}
+	for (size_t i = pair.second.size() / 2; i < pair.second.size(); i++)
+	{
+		p2.first.push_back(pair.first[i]);
+		p2.second.push_back(pair.second[i]);
+	}
+
+	p1 = mergeSortPairsDeque(p1);
+	p2 = mergeSortPairsDeque(p2);
+
+	return mergeDeques(p1, p2);
+}
+
+PmergeMe::pairDeque PmergeMe::mergeDeques(pairDeque p1, pairDeque p2)
+{
+	pairDeque res;
+
+	size_t i = 0;
+	size_t j = 0;
+	while (i < p1.second.size() && j < p2.second.size())
+	{
+		if (p1.second[i] > p2.second[j])
+		{
+			res.second.push_back(p2.second[j]);
+			res.first.push_back(p2.first[j]);
+			j++;
+		}
+		else
+		{
+			res.second.push_back(p1.second[i]);
+			res.first.push_back(p1.first[i]);
+			i++;
+		}
 	}
 
 	while (i < p1.second.size())
