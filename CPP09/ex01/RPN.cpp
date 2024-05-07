@@ -6,7 +6,7 @@
 /*   By: fernacar <fernacar@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 21:07:23 by fernacar          #+#    #+#             */
-/*   Updated: 2024/04/04 21:07:38 by fernacar         ###   ########.fr       */
+/*   Updated: 2024/05/07 23:12:59 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,19 @@ RPN::RPN(std::string argStr)
 	}
 	while (!argStr.empty())
 	{
-		std::string elem = getNextElem(argStr);
-		if (elem.empty())
+		std::string elem = argStr.substr(0, 1);
+		argStr = argStr.substr(1, argStr.size() - 1);
+		if (elem == " ")
 			continue ;
-		else if (elem.find_first_not_of("+-*/") != std::string::npos)
+		if (elem.find_first_not_of("+-*/") != std::string::npos)
 			_stack.push(atol(elem.c_str()));
 		else if (_stack.size() >= 2 && elem.length() == 1)
 			doOperation(elem);
 		else
-			break;
+		{
+			std::cout << "Error" << std::endl;
+			return;
+		}
 	}
 	if (_stack.size() != 1 || !argStr.empty())
 		std::cout << "Error" << std::endl;
@@ -63,6 +67,7 @@ std::string RPN::getNextElem(std::string& argStr)
 
 void RPN::doOperation(const std::string& op)
 {
+	//std::cout << "doOperation" << std::endl;
 	long operand2 = _stack.top();
 	_stack.pop();
 	long operand1 = _stack.top();
@@ -78,7 +83,7 @@ void RPN::doOperation(const std::string& op)
 	else if (op == "/")
 		res = operand1 / operand2;
 	else
-		std::cout << "lol" << std::endl;
+		std::cout << "unexpected opertator" << std::endl;
 	
 	_stack.push(res);
 }

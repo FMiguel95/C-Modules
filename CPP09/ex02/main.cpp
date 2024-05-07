@@ -6,7 +6,7 @@
 /*   By: fernacar <fernacar@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 21:11:54 by fernacar          #+#    #+#             */
-/*   Updated: 2024/05/06 23:46:11 by fernacar         ###   ########.fr       */
+/*   Updated: 2024/05/07 20:00:26 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int main(int ac, char** av)
 {
 	if (ac < 3)
 	{
-		std::cout << "Needs at least 2 arguments." << std::endl;
+		std::cout << "Provide at least 2 different positive numbers." << std::endl;
 		return 1;
 	}
 	bool quit = false;
