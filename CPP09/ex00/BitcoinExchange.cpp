@@ -6,7 +6,7 @@
 /*   By: fernacar <fernacar@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 21:02:10 by fernacar          #+#    #+#             */
-/*   Updated: 2024/05/07 00:01:29 by fernacar         ###   ########.fr       */
+/*   Updated: 2024/05/08 19:56:18 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,11 @@ BitcoinExchange::BitcoinExchange()
 	std::ifstream dataFile("data.csv");
 	if (!dataFile)
 	{
+		_hasDatabase = false;
 		std::cerr << "Error: could not open data.csv: " << std::strerror(errno) << std::endl;
 		return ;
 	}
+	_hasDatabase = true;
 	// for each line, get the date and value and add them to map
 	std::string line;
 	std::getline(dataFile, line); // skip first line
@@ -37,7 +39,7 @@ BitcoinExchange::BitcoinExchange()
 	dataFile.close();
 }
 
-BitcoinExchange::BitcoinExchange(const BitcoinExchange& src) : _priceHistory(src._priceHistory) {}
+BitcoinExchange::BitcoinExchange(const BitcoinExchange& src) : _priceHistory(src._priceHistory), _hasDatabase(src._hasDatabase) {}
 
 BitcoinExchange::~BitcoinExchange() {}
 
@@ -46,8 +48,14 @@ BitcoinExchange& BitcoinExchange::operator =(const BitcoinExchange& src)
 	if (this != &src)
 	{
 		_priceHistory = src._priceHistory;
+		_hasDatabase = src._hasDatabase;
 	}
 	return *this;
+}
+
+bool BitcoinExchange::getHasDatabase() const
+{
+	return _hasDatabase;
 }
 
 bool BitcoinExchange::ValidateDate(const std::string& dateStr) const
@@ -95,6 +103,31 @@ float BitcoinExchange::GetPrice(const std::string& dateStr) const
 	return i->second;
 }
 
+bool BitcoinExchange::ValidateValue(const std::string& amountStr) const
+{
+	size_t i = 0;
+	bool decimalDelFound = false;
+	if (amountStr[i] == '-') // skip the minus sign for now, it will be tested later
+		i++;
+	while (amountStr[i])
+	{
+		if (!std::isdigit(amountStr[i]) && amountStr[i] != '.') // if its not a digit or a .
+			return false;
+		if (amountStr[i] == '.')
+		{
+			if (i == 0) // if . is right at the start
+				return false;
+			if (!std::isdigit(amountStr[i + 1])) // if there isnt a number after a .
+				return false;
+			if (decimalDelFound) // if more than one . was found
+				return false;
+			decimalDelFound = true;
+		}
+		i++;
+	}
+	return true;
+}
+
 void BitcoinExchange::DisplayResult(char* inputArg) const
 {
 	// open input file
@@ -110,7 +143,7 @@ void BitcoinExchange::DisplayResult(char* inputArg) const
 	while (std::getline(inputFile, line)) 
 	{
 		// get delimiter position
-		size_t delimiterPos = line.find(" | ");
+		size_t delimiterPos = line.find("|");
 		if (delimiterPos == std::string::npos)
 		{
 			std::cout << "Error: bad input => " << line << std::endl;
@@ -118,8 +151,12 @@ void BitcoinExchange::DisplayResult(char* inputArg) const
 		}
 
 		// get date
-		std::string dateStr = line.substr(0, delimiterPos);
-		// std::cout << dateStr << std::endl;
+		size_t dateEndPos = delimiterPos;
+		if (dateEndPos != 0)
+			dateEndPos--;
+		while (dateEndPos > 0 && std::isspace(line[dateEndPos]))
+			dateEndPos--;
+		std::string dateStr = line.substr(0, dateEndPos+1);
 		if (!ValidateDate(dateStr))
 		{
 			std::cout << "Error: invalid date format => " << line << std::endl;
@@ -127,10 +164,20 @@ void BitcoinExchange::DisplayResult(char* inputArg) const
 		}
 
 		// get amount
-		std::string amountStr = line.substr(delimiterPos + 3, line.length() - delimiterPos);
-		// std::cout << amountStr << std::endl;
+		size_t valueStartPos = delimiterPos + 1;
+		while (line[valueStartPos] && std::isspace(line[valueStartPos]))
+			valueStartPos++;
+		size_t valueEndPos = line.length() - 1;
+		while (valueEndPos > 0 && std::isspace(line[valueEndPos]))
+			valueEndPos--;
+		std::string amountStr = line.substr(valueStartPos, valueEndPos + 1 - valueStartPos);
+		if (!ValidateValue(amountStr))
+		{
+			std::cout << "Error: bad number format." << std::endl;
+			continue;
+		}
 		float amount = std::atof(amountStr.c_str());
-		if (amount < 0)
+		if (amount <= 0)
 		{
 			std::cout << "Error: not a positive number." << std::endl;
 			continue;
@@ -142,7 +189,7 @@ void BitcoinExchange::DisplayResult(char* inputArg) const
 		}
 		
 		float converstion = amount * GetPrice(dateStr);
-		std::cout << dateStr << " => " << amount << " = " << converstion << std::endl;
+		std::cout << dateStr << " => " << amountStr << " = " << converstion << std::endl;
 	}
 	inputFile.close();
 }

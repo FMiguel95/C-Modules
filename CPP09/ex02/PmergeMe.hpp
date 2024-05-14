@@ -6,7 +6,7 @@
 /*   By: fernacar <fernacar@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 21:12:07 by fernacar          #+#    #+#             */
-/*   Updated: 2024/05/06 23:57:40 by fernacar         ###   ########.fr       */
+/*   Updated: 2024/05/08 20:24:53 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <deque>
 # include <algorithm>
 # include <iostream>
+# include <ctime>
 
 class PmergeMe
 {

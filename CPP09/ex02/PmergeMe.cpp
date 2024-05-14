@@ -6,7 +6,7 @@
 /*   By: fernacar <fernacar@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 21:12:15 by fernacar          #+#    #+#             */
-/*   Updated: 2024/05/07 00:02:51 by fernacar         ###   ########.fr       */
+/*   Updated: 2024/05/08 20:24:12 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ PmergeMe::PmergeMe(int ac, char**av)
 	std::cout << std::endl;
 
 	std::cout << "Time to process a range of " << vec.size() << " elements with std::vector : " << endTimeVector << " ms" << std::endl;
-	std::cout << "Time to process a range of " << deq.size() << " elements with std::deque : " << endTimeDeque << " ms" << std::endl;
+	std::cout << "Time to process a range of " << deq.size() << " elements with std::deque  : " << endTimeDeque << " ms" << std::endl;
 }
 
 PmergeMe::PmergeMe(const PmergeMe& src) : _vector(src._vector), _deque(src._deque) {}
@@ -59,6 +59,8 @@ PmergeMe::PmergeMe() {}
 
 std::vector<unsigned int> PmergeMe::sortVector()
 {
+	if (_vector.size() <= 1)
+		return _vector;
 	// save and remove last element if odd number
 	std::vector<unsigned int>::const_iterator straggler;
 	if (_vector.size() % 2)
@@ -257,6 +259,8 @@ PmergeMe::pairVector PmergeMe::mergeVectors(pairVector p1, pairVector p2)
 
 std::deque<unsigned int> PmergeMe::sortDeque()
 {
+	if (_deque.size() <= 1)
+		return _deque;
 	// save and remove last element if odd number
 	std::deque<unsigned int>::const_iterator straggler;
 	if (_deque.size() % 2)

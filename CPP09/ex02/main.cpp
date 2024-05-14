@@ -6,21 +6,20 @@
 /*   By: fernacar <fernacar@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 21:11:54 by fernacar          #+#    #+#             */
-/*   Updated: 2024/05/07 20:00:26 by fernacar         ###   ########.fr       */
+/*   Updated: 2024/05/08 20:23:13 by fernacar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
-#include <ctime>
 #include <iostream>
 
 
 
 int main(int ac, char** av)
 {
-	if (ac < 3)
+	if (ac == 1)
 	{
-		std::cout << "Provide at least 2 different positive numbers." << std::endl;
+		std::cout << "Usage: ./PmergeMe <n1> <n2> ..." << std::endl;
 		return 1;
 	}
 	bool quit = false;
